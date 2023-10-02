@@ -46,8 +46,8 @@ export default function Login() {
 
 
   return (
-    <main className='p-0 justify-center items-center'>
-      <div className='border-2 border-secondary p-16 bg-primary'>
+    <main className='h-screen w-screen flex justify-center items-center'>
+      <div className='bg-primary border-2 border-secondary p-16'>
         <div className='text-3xl text-center'>Simulation Data</div>
 
         <form onSubmit={handleSubmit} className='mt-16 flex flex-col gap-4'>

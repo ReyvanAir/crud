@@ -17,10 +17,3 @@ body, div#root, main {
 div#root {
   display: flex;
 }
-
-main {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 0%;
-  padding: 1rem;
-}

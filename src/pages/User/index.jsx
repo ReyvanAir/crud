@@ -49,27 +49,27 @@ export default function User() {
 
 
   return (
-    <main>
+    <main className='flex-1 flex flex-col gap-4 p-4'>
       <div className='text-2xl'>USER</div>
+      
+      {!users ? (
+        <div className='text-center text-lg'>Loading data ...</div>
+      ) : (users.length === 0) ? (
+        <div className='text-center text-lg'>Data is empty</div>
+      ) : (
+        <>
+          <div className='flex gap-4 items-center'>
+            <TextField
+              label='Search User'
+              variant='outlined'
+              size='small'
+              value={filterUser}
+              onChange={e => setFilterUser(e.target.value)}
+            />
+          </div>
 
-      <div className='mt-4 overflow-auto'>
-        {!users ? (
-          <div className='text-center text-lg'>Loading data ...</div>
-        ) : (users.length === 0) ? (
-          <div className='text-center text-lg'>Data is empty</div>
-        ) : (
-          <>
-            <div className='flex items-center gap-4'>
-              <TextField
-                label='Search User'
-                variant='outlined'
-                size='small'
-                value={filterUser}
-                onChange={e => setFilterUser(e.target.value)}
-              />
-            </div>
-
-            <table className='mt-4 w-full select-text'>
+          <div className='flex-1 overflow-auto'>
+            <table className='w-full'>
               <thead className='bg-tertiary text-neutral-100 border border-tertiary'>
                 <tr>
                   <th className='py-2 px-2'>UID</th>
@@ -114,15 +114,15 @@ export default function User() {
                 ))}
               </tbody>
             </table>
+          </div>
 
-            <div className='mt-4 flex justify-end'>
-              <Button variant='contained' onClick={() => setIsAddUserDialogOpen(true)}>
-                Add User
-              </Button>
-            </div>
-          </>
-        )}
-      </div>
+          <div className='flex justify-end gap-4'>
+            <Button variant='contained' onClick={() => setIsAddUserDialogOpen(true)}>
+              Add User
+            </Button>
+          </div>
+        </>
+      )}
 
 
 

@@ -59,26 +59,25 @@ export default function Leaderboard() {
 
 
   return (
-    <main>
+    <main className='flex-1 flex flex-col gap-4 p-4'>
       <div className='-mt-4 -mx-4 bg-tertiary flex px-4'>
         <div className={`${selectedMode === 'AI' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('AI')}>AI</div>
         <div className={`${selectedMode === 'TeamPVE' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('TeamPVE')}>Team PVE</div>
         <div className={`${selectedMode === 'TeamPVP' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('TeamPVP')}>Team PVP</div>
       </div>
+
+      <div className='text-2xl'>LEADERBOARD</div>
       
-      <div className='mt-4 text-2xl'>LEADERBOARD</div>
+      {!leaderboards ? (
+        <div className='text-center text-lg'>Loading data ...</div>
+      ) : (leaderboards.length === 0) ? (
+        <div className='text-center text-lg'>Data is empty</div>
+      ) : (
+        <>
+          <div className='flex gap-4 items-center'>
+            <div className='text-lg'>Leaderboard On:</div>
 
-      <div className='mt-4 overflow-auto'>
-        {!leaderboards ? (
-          <div className='text-center text-lg'>Loading data ...</div>
-        ) : (leaderboards.length === 0) ? (
-          <div className='text-center text-lg'>Data is empty</div>
-        ) : (
-          <>
-            <div className='mt-2 flex items-center gap-4'>
-              <label className='text-lg'>Leaderboard On:</label>
-
-              <FormControl>
+            <FormControl>
                 <InputLabel>Month</InputLabel>
                 <Select
                   label='Month'
@@ -130,9 +129,10 @@ export default function Leaderboard() {
                 onChange={e => setFilterYear(e.target.value)}
               />
               {/* pake input -----> */}
-            </div>
+          </div>
 
-            <table className='mt-4 w-full select-text'>
+          <div className='flex-1 overflow-auto'>
+            <table className='w-full'>
               <thead className='bg-tertiary text-neutral-100 border border-tertiary'>
                 <tr>
                   <th className='py-2 px-2'>RANK</th>
@@ -156,8 +156,9 @@ export default function Leaderboard() {
                 ))}
               </tbody>
             </table>
+          </div>
 
-            <div className='mt-4 flex justify-end'>
+          <div className='flex justify-end gap-4'>
             <Button
               variant='contained'
               onClick={resetOnClick}
@@ -165,10 +166,9 @@ export default function Leaderboard() {
             >
               Reset
             </Button>
-            </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </main>
   );
 };

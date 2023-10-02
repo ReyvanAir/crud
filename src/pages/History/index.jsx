@@ -2,13 +2,7 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button
+  MenuItem
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 
@@ -56,61 +50,59 @@ export default function History() {
 
 
   return (
-    <main>
+    <main className='flex-1 flex flex-col gap-4 p-4'>
       <div className='text-2xl'>HISTORY</div>
+      
+      {!histories ? (
+        <div className='text-center text-lg'>Loading data ...</div>
+      ) : (histories.length === 0) ? (
+        <div className='text-center text-lg'>Data is empty</div>
+      ) : (
+        <>
+          <div className='flex gap-4 items-center'>
+            <FormControl>
+              <InputLabel>Month</InputLabel>
+              <Select
+                label='Month'
+                variant='outlined'
+                size='small'
+                value={filterMonth}
+                onChange={e => setFilterMonth(e.target.value)}
+              >
+                <MenuItem value='ALL'>ALL</MenuItem>
+                <MenuItem value='01'>January</MenuItem>
+                <MenuItem value='02'>February</MenuItem>
+                <MenuItem value='03'>March</MenuItem>
+                <MenuItem value='04'>April</MenuItem>
+                <MenuItem value='05'>May</MenuItem>
+                <MenuItem value='06'>June</MenuItem>
+                <MenuItem value='07'>July</MenuItem>
+                <MenuItem value='08'>August</MenuItem>
+                <MenuItem value='09'>September</MenuItem>
+                <MenuItem value='10'>October</MenuItem>
+                <MenuItem value='11'>November</MenuItem>
+                <MenuItem value='12'>December</MenuItem>
+              </Select>
+            </FormControl>
+            
+            <FormControl>
+              <InputLabel>Duration</InputLabel>
+              <Select
+                label='Duration'
+                variant='outlined'
+                size='small'
+                value={filterDuration}
+                onChange={e => setFilterDuration(e.target.value)}
+              >
+                <MenuItem value='default'>Default</MenuItem>
+                <MenuItem value='fastest'>Fastest</MenuItem>
+                <MenuItem value='slowest'>Slowest</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
 
-      <div className='mt-4 overflow-auto'>
-        {!histories ? (
-          <div className='text-center text-lg'>Loading data ...</div>
-        ) : (histories.length === 0) ? (
-          <div className='text-center text-lg'>Data is empty</div>
-        ) : (
-          <>
-            <div className='mt-2 flex items-center gap-4'>
-              <label className='text-lg'>Leaderboard On:</label>
-
-              <FormControl>
-                <InputLabel>Month</InputLabel>
-                <Select
-                  label='Month'
-                  variant='outlined'
-                  size='small'
-                  value={filterMonth}
-                  onChange={e => setFilterMonth(e.target.value)}
-                >
-                  <MenuItem value='ALL'>ALL</MenuItem>
-                  <MenuItem value='01'>January</MenuItem>
-                  <MenuItem value='02'>February</MenuItem>
-                  <MenuItem value='03'>March</MenuItem>
-                  <MenuItem value='04'>April</MenuItem>
-                  <MenuItem value='05'>May</MenuItem>
-                  <MenuItem value='06'>June</MenuItem>
-                  <MenuItem value='07'>July</MenuItem>
-                  <MenuItem value='08'>August</MenuItem>
-                  <MenuItem value='09'>September</MenuItem>
-                  <MenuItem value='10'>October</MenuItem>
-                  <MenuItem value='11'>November</MenuItem>
-                  <MenuItem value='12'>December</MenuItem>
-                </Select>
-              </FormControl>
-              
-              <FormControl>
-                <InputLabel>Duration</InputLabel>
-                <Select
-                  label='Duration'
-                  variant='outlined'
-                  size='small'
-                  value={filterDuration}
-                  onChange={e => setFilterDuration(e.target.value)}
-                >
-                  <MenuItem value='default'>Default</MenuItem>
-                  <MenuItem value='fastest'>Fastest</MenuItem>
-                  <MenuItem value='slowest'>Slowest</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-
-            <table className='mt-4 w-full select-text'>
+          <div className='flex-1 overflow-auto'>
+            <table className='w-full'>
               <thead className='bg-tertiary text-neutral-100 border border-tertiary'>
                 <tr>
                   <th className='py-2 px-2'>BATTLE</th>
@@ -134,19 +126,8 @@ export default function History() {
                 ))}
               </tbody>
             </table>
-          </>
-        )}
-      </div>
-
-
-
-      {/* Selected History Dialog */}
-      {selectedHistory && (
-        <HistoryDialog
-          open={selectedHistory ? true : false}
-          onClose={() => setSelectedHistory(null)}
-          data={histories}
-        />
+          </div>
+        </>
       )}
     </main>
   );

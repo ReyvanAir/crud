@@ -13,7 +13,7 @@ export default function Nav() {
 
   const user = JSON.parse(sessionStorage.getItem('user'));
 
-  const [expandNav, setExpandNav] = useState(true);
+  const [isExpand, setIsExpand] = useState(true);
 
 
 
@@ -25,61 +25,59 @@ export default function Nav() {
 
 
   return (
-    <nav className={`bg-secondary flex flex-col ${expandNav ? 'w-[20vw]' : '' }`}>
+    <nav className={`overflow-y-auto bg-secondary flex flex-col ${isExpand ? 'static' : 'absolute rounded'}`}>
       <Button
         variant='outlined'
         size='small'
-        onClick={() => setExpandNav(!expandNav)}
+        onClick={() => setIsExpand(!isExpand)}
       >
         <Menu />
       </Button>
+      
+      {isExpand && (
+        <div className='h-full w-[20vw] py-8 px-4 flex flex-col justify-between'>
+          <div className='flex flex-col items-center'>
+            <img
+              src={ProfilePicturePlaceholder}
+              alt='profile'
+              className='rounded-full h-32 w-32'
+            />
+            <div>{user.displayName}</div>
+            <div className='font-bold'>ADMIN</div>
+          </div>
 
-      <div className={`flex-1 ${expandNav ? 'flex' : 'hidden'} flex-col justify-between py-8 px-4`}>
-        <div className='flex flex-col items-center gap-2'>
-          <img
-            src={ProfilePicturePlaceholder}
-            alt='profile'
-            className='rounded-full h-32 w-32'
-          />
-          <div className='font-bold text-lg'>{user.displayName}</div>
-          <div className='font-bold'>ADMIN</div>
+          <div className='flex flex-col gap-4'>
+            <Button
+              variant='contained'
+              onClick={() => navigate('/user')}
+              disabled={location.pathname.includes('/user')}
+            >
+              User
+            </Button>
+            <Button
+              variant='contained'
+              onClick={() => navigate('/leaderboard')}
+              disabled={location.pathname.includes('/leaderboard')}
+            >
+              Leaderboard
+            </Button>
+            <Button
+              variant='contained'
+              onClick={() => navigate('/history')}
+              disabled={location.pathname.includes('/history')}
+            >
+              History
+            </Button>
+          </div>
+
+          <Button
+            variant='contained'
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </div>
-
-        <div className='flex flex-col gap-2'>
-          <Button
-            variant='contained'
-            className='w-full'
-            onClick={() => navigate('/user')}
-            disabled={location.pathname.includes('/user')}
-          >
-            User
-          </Button>
-          <Button
-            variant='contained'
-            className='w-full'
-            onClick={() => navigate('/leaderboard')}
-            disabled={location.pathname.includes('/leaderboard')}
-          >
-            Leaderboard
-          </Button>
-          <Button
-            variant='contained'
-            className='w-full'
-            onClick={() => navigate('/history')}
-            disabled={location.pathname.includes('/history')}
-          >
-            History
-          </Button>
-        </div>
-
-        <Button
-          variant='contained'
-          className='w-full'
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
-      </div>
+      )}
     </nav>
   );
 };
