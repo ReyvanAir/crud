@@ -32,6 +32,7 @@ export default function Leaderboard() {
       const res = await req.json();
       if (res) {
         setLeaderboards(res.users.map(leaderboard => ({
+          rank: leaderboard.id,
           username: leaderboard.username,
           KDratio: leaderboard.weight,
           score: leaderboard.height,
@@ -134,6 +135,7 @@ export default function Leaderboard() {
             <table className='mt-4 w-full select-text'>
               <thead className='bg-tertiary text-neutral-100 border border-tertiary'>
                 <tr>
+                  <th className='py-2 px-2'>RANK</th>
                   <th className='py-2 px-2'>USERNAME</th>
                   <th className='py-2 px-2'>K/D Ratio</th>
                   <th className='py-2 px-2'>SCORE</th>
@@ -144,6 +146,7 @@ export default function Leaderboard() {
               <tbody className='border border-tertiary' style={{backgroundColor: '#FDF3D3'}}>
                 {filteredLeaderboads().map((leaderboard, index) => (
                   <tr key={index}>
+                    <td className='px-2 border-y border-tertiary'>{leaderboard.rank}</td>
                     <td className='px-2 border-y border-tertiary'>{leaderboard.username}</td>
                     <td className='px-2 border-y border-tertiary'>{leaderboard.KDratio}</td>
                     <td className='px-2 border-y border-tertiary'>{leaderboard.score}</td>
