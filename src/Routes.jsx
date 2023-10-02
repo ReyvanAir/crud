@@ -6,7 +6,6 @@ import {
   SignUp,
   Home,
   History,
-  HistoryPlayerDetail,
   Leaderboard,
   User
 } from './pages';
@@ -32,7 +31,6 @@ export default function _Routes() {
           <Routes>
             <Route path='/home' element={<Home />} />
             <Route path='/history' element={<History />} />
-            <Route path='/history/player-detail' element={<HistoryPlayerDetail />} />
             <Route path='/leaderboard' element={<Leaderboard />} />
             <Route path='/User' element={<User />} />
             <Route path='*' element={<Navigate to='/home' />} />

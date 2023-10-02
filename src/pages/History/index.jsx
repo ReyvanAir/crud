@@ -2,9 +2,17 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button
 } from '@mui/material';
 import { useState, useEffect } from 'react';
+
+import HistoryDialog from './HistoryDialog';
 
 
 
@@ -12,6 +20,7 @@ export default function History() {
   const [filterMonth, setFilterMonth] = useState('ALL');
   const [filterDuration, setFilterDuration] = useState('default');
   const [histories, setHistories] = useState(null);
+  const [selectedHistory, setSelectedHistory] = useState(null);
 
 
 
@@ -25,7 +34,12 @@ export default function History() {
           battle: history.maidenName,
           result: history.eyeColor,
           date: history.birthDate,
-          duration: history.age
+          duration: history.age,
+
+          username: history.username,
+          kill: history.ip.split('.')[0],
+          death: history.ip.split('.')[1],
+          score: history.height
         })));
       }
     })();
@@ -106,12 +120,16 @@ export default function History() {
                 </tr>
               </thead>
               <tbody className='border border-tertiary' style={{backgroundColor: '#FDF3D3'}}>
-                {filteredHistories().map((user, index) => (
-                  <tr key={index}>
-                    <td className='px-2 border-y border-tertiary'>{user.battle}</td>
-                    <td className='px-2 border-y border-tertiary'>{user.result}</td>
-                    <td className='px-2 border-y border-tertiary'>{user.date}</td>
-                    <td className='px-2 border-y border-tertiary'>{user.duration}</td>
+                {filteredHistories().map((history, index) => (
+                  <tr
+                    key={index}
+                    className='hover:cursor-pointer hover:bg-secondary'
+                    onClick={() => setSelectedHistory(history)}
+                  >
+                    <td className='px-2 border-y border-tertiary'>{history.battle}</td>
+                    <td className='px-2 border-y border-tertiary'>{history.result}</td>
+                    <td className='px-2 border-y border-tertiary'>{history.date}</td>
+                    <td className='px-2 border-y border-tertiary'>{history.duration}</td>
                   </tr>
                 ))}
               </tbody>
@@ -119,6 +137,17 @@ export default function History() {
           </>
         )}
       </div>
+
+
+
+      {/* Selected History Dialog */}
+      {selectedHistory && (
+        <HistoryDialog
+          open={selectedHistory ? true : false}
+          onClose={() => setSelectedHistory(null)}
+          data={histories}
+        />
+      )}
     </main>
   );
 };
