@@ -3,6 +3,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  TextField,
   Button
 } from '@mui/material';
 import { useState, useEffect } from 'react';
@@ -100,7 +101,8 @@ export default function Leaderboard() {
                   <MenuItem value='12'>December</MenuItem>
                 </Select>
               </FormControl>
-
+              
+              {/* <----- pake select */}
               <FormControl>
                 <InputLabel>Year</InputLabel>
                 <Select
@@ -111,20 +113,22 @@ export default function Leaderboard() {
                   onChange={e => setYearQuery(e.target.value)}
                 >
                   <MenuItem value='ALL'>ALL</MenuItem>
-                  <MenuItem value='01'>January</MenuItem>
-                  <MenuItem value='02'>February</MenuItem>
-                  <MenuItem value='03'>March</MenuItem>
-                  <MenuItem value='04'>April</MenuItem>
-                  <MenuItem value='05'>May</MenuItem>
-                  <MenuItem value='06'>June</MenuItem>
-                  <MenuItem value='07'>July</MenuItem>
-                  <MenuItem value='08'>August</MenuItem>
-                  <MenuItem value='09'>September</MenuItem>
-                  <MenuItem value='10'>October</MenuItem>
-                  <MenuItem value='11'>November</MenuItem>
-                  <MenuItem value='12'>December</MenuItem>
+                  {leaderboards.map((leaderboard, index) => (
+                    <MenuItem key={index} value={leaderboard.date.split('T')[0].split('-')[0]}>{leaderboard.date.split('T')[0].split('-')[0]}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
+              {/* pake select -----> */}
+
+              {/* <----- pake input */}
+              <TextField
+                label='Year'
+                variant='outlined'
+                size='small'
+                value={yearQuery}
+                onChange={e => setYearQuery(e.target.value)}
+              />
+              {/* pake input -----> */}
             </div>
 
             <table className='mt-4 w-full select-text'>
@@ -137,14 +141,14 @@ export default function Leaderboard() {
                   <th className='py-2 px-2'>DURATION</th>
                 </tr>
               </thead>
-              <tbody style={{backgroundColor: '#FDF3D3'}}>
+              <tbody className='border border-tertiary' style={{backgroundColor: '#FDF3D3'}}>
                 {filteredLeaderboads().map((leaderboard, index) => (
                   <tr key={index}>
-                    <td className='px-2 border border-tertiary'>{leaderboard.username}</td>
-                    <td className='px-2 border border-tertiary'>{leaderboard.KDratio}</td>
-                    <td className='px-2 border border-tertiary'>{leaderboard.score}</td>
-                    <td className='px-2 border border-tertiary'>{leaderboard.date}</td>
-                    <td className='px-2 border border-tertiary'>{leaderboard.duration}</td>
+                    <td className='px-2 border-x border-tertiary'>{leaderboard.username}</td>
+                    <td className='px-2 border-x border-tertiary'>{leaderboard.KDratio}</td>
+                    <td className='px-2 border-x border-tertiary'>{leaderboard.score}</td>
+                    <td className='px-2 border-x border-tertiary'>{leaderboard.date}</td>
+                    <td className='px-2 border-x border-tertiary'>{leaderboard.duration}</td>
                   </tr>
                 ))}
               </tbody>

@@ -78,16 +78,16 @@ export default function User() {
                   <th className='py-2 px-2'>Action</th>
                 </tr>
               </thead>
-              <tbody style={{backgroundColor: '#FDF3D3'}}>
+              <tbody className='border border-tertiary' style={{backgroundColor: '#FDF3D3'}}>
                 {filteredUsers().map((user, index) => (
                   <tr key={index}>
-                    <td className='px-2 border border-tertiary'>{user.UID}</td>
-                    <td className='px-2 border border-tertiary'>{user.userName}</td>
-                    <td className='px-2 border border-tertiary'>{user.email}</td>
-                    <td className='px-2 border border-tertiary'>{user.battle}</td>
-                    <td className='px-2 border border-tertiary'>{user.score}</td>
-                    <td className='px-2 border border-tertiary'>{user.WLratio}</td>
-                    <td className='px-2 border border-tertiary text-center'>
+                    <td className='px-2 border-x border-tertiary'>{user.UID}</td>
+                    <td className='px-2 border-x border-tertiary'>{user.userName}</td>
+                    <td className='px-2 border-x border-tertiary'>{user.email}</td>
+                    <td className='px-2 border-x border-tertiary'>{user.battle}</td>
+                    <td className='px-2 border-x border-tertiary'>{user.score}</td>
+                    <td className='px-2 border-x border-tertiary'>{user.WLratio}</td>
+                    <td className='px-2 border-x border-tertiary text-center'>
                       <Button
                         variant='text'
                         size='small'
