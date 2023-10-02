@@ -24,3 +24,5 @@ yarn-error.log*
 
 # keys
 fir-3-11889-f3176ddef5b8.json
+
+.env
