@@ -34,6 +34,7 @@ export default function _Routes() {
               <Route path='/history' element={<History />} />
               <Route path='/leaderboard' element={<Leaderboard />} />
               <Route path='/user' element={<UserAsAdmin />} />
+              <Route path='/UserP' element={<User />} />
               <Route path='*' element={<Navigate to='/user' />} />
             </Routes>
           ) : (

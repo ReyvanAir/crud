@@ -70,6 +70,14 @@ export default function Nav() {
           >
             History
           </Button>
+          <Button
+            variant='contained'
+            className='w-full'
+            onClick={() => navigate('/UserP')}
+            disabled={location.pathname.includes('/UserP')}
+          >
+            UserProgress
+          </Button>
         </div>
 
         <Button
