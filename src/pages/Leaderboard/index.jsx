@@ -12,8 +12,8 @@ import { useState, useEffect } from 'react';
 
 export default function Leaderboard() {
   const [selectedLeaderboard, setSelectedLeadeboard] = useState('AI');
-  const [monthQuery, setMonthQuery] = useState('ALL');
-  const [yearQuery, setYearQuery] = useState('ALL');
+  const [filterMonth, setFilterMonth] = useState('ALL');
+  const [filterYear, setFilterYear] = useState('ALL');
   const [leaderboards, setLeaderboards] = useState(null);
 
 
@@ -46,8 +46,8 @@ export default function Leaderboard() {
 
   function filteredLeaderboads() {
     return leaderboards?.filter(leaderboard => (
-      ((monthQuery === 'ALL') || leaderboard.date.split('T')[0].split('-')[1].includes(monthQuery)) &&
-      ((yearQuery === 'ALL') || leaderboard.date.split('T')[0].split('-')[0].includes(yearQuery))
+      ((filterMonth === 'ALL') || leaderboard.date.split('T')[0].split('-')[1].includes(filterMonth)) &&
+      ((filterYear === 'ALL') || leaderboard.date.split('T')[0].split('-')[0].includes(filterYear))
     ));
   }
 
@@ -83,8 +83,8 @@ export default function Leaderboard() {
                   label='Month'
                   variant='outlined'
                   size='small'
-                  value={monthQuery}
-                  onChange={e => setMonthQuery(e.target.value)}
+                  value={filterMonth}
+                  onChange={e => setFilterMonth(e.target.value)}
                 >
                   <MenuItem value='ALL'>ALL</MenuItem>
                   <MenuItem value='01'>January</MenuItem>
@@ -109,8 +109,8 @@ export default function Leaderboard() {
                   label='Year'
                   variant='outlined'
                   size='small'
-                  value={yearQuery}
-                  onChange={e => setYearQuery(e.target.value)}
+                  value={filterYear}
+                  onChange={e => setFilterYear(e.target.value)}
                 >
                   <MenuItem value='ALL'>ALL</MenuItem>
                   {leaderboards.map((leaderboard, index) => (
@@ -125,8 +125,8 @@ export default function Leaderboard() {
                 label='Year'
                 variant='outlined'
                 size='small'
-                value={yearQuery}
-                onChange={e => setYearQuery(e.target.value)}
+                value={filterYear}
+                onChange={e => setFilterYear(e.target.value)}
               />
               {/* pake input -----> */}
             </div>

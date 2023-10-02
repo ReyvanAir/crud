@@ -9,7 +9,7 @@ import EditUserDialog from './EditUserDialog';
 
 
 export default function User() {
-  const [searchUserQuery, setSearchUserQuery] = useState('');
+  const [filterUser, setFilterUser] = useState('');
   const [users, setUsers] = useState(null);
   const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
   const [isEditUserDialogOpen, setIsEditUserDialogOpen] = useState(false);
@@ -39,7 +39,7 @@ export default function User() {
 
   function filteredUsers() {
     return users?.filter(user => (
-      (!user || user.userName.includes(searchUserQuery))
+      (!user || user.userName.includes(filterUser))
     ));
   }
 
@@ -61,8 +61,8 @@ export default function User() {
                 label='Search User'
                 variant='outlined'
                 size='small'
-                value={searchUserQuery}
-                onChange={e => setSearchUserQuery(e.target.value)}
+                value={filterUser}
+                onChange={e => setFilterUser(e.target.value)}
               />
             </div>
 
@@ -131,7 +131,7 @@ export default function User() {
           onClose={() => setIsDeleteUserDialogOpen(false)}
           data={isDeleteUserDialogOpen}
         />
-    )}
+      )}
 
       {/* Edit User Dialog */}
       {isEditUserDialogOpen && (
