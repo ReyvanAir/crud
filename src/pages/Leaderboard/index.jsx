@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 
 
 export default function Leaderboard() {
-  const [selectedLeaderboard, setSelectedLeadeboard] = useState('AI');
+  const [selectedMode, setSelectedMode] = useState('AI');
   const [filterMonth, setFilterMonth] = useState('ALL');
   const [filterYear, setFilterYear] = useState('ALL');
   const [leaderboards, setLeaderboards] = useState(null);
@@ -24,9 +24,9 @@ export default function Leaderboard() {
 
     (async () => {
       let URI = '';
-      if (selectedLeaderboard === 'AI') URI = 'https://dummyjson.com/users?limit=50&skip=25';
-      if (selectedLeaderboard === 'TeamPVE') URI = 'https://dummyjson.com/users?limit=75&skip=50';
-      if (selectedLeaderboard === 'TeamPVP') URI = 'https://dummyjson.com/users?limit=100&skip=75';
+      if (selectedMode === 'AI') URI = 'https://dummyjson.com/users?limit=50&skip=25';
+      if (selectedMode === 'TeamPVE') URI = 'https://dummyjson.com/users?limit=75&skip=50';
+      if (selectedMode === 'TeamPVP') URI = 'https://dummyjson.com/users?limit=100&skip=75';
 
       const req = await fetch(URI);
       const res = await req.json();
@@ -41,7 +41,7 @@ export default function Leaderboard() {
         })));
       }
     })();
-  }, [selectedLeaderboard]);
+  }, [selectedMode]);
 
 
 
@@ -61,9 +61,9 @@ export default function Leaderboard() {
   return (
     <main>
       <div className='-mt-4 -mx-4 bg-tertiary flex px-4'>
-        <div className={`${selectedLeaderboard === 'AI' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedLeadeboard('AI')}>AI</div>
-        <div className={`${selectedLeaderboard === 'TeamPVE' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedLeadeboard('TeamPVE')}>Team PVE</div>
-        <div className={`${selectedLeaderboard === 'TeamPVP' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedLeadeboard('TeamPVP')}>Team PVP</div>
+        <div className={`${selectedMode === 'AI' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('AI')}>AI</div>
+        <div className={`${selectedMode === 'TeamPVE' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('TeamPVE')}>Team PVE</div>
+        <div className={`${selectedMode === 'TeamPVP' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('TeamPVP')}>Team PVP</div>
       </div>
       
       <div className='mt-4 text-2xl'>LEADERBOARD</div>
