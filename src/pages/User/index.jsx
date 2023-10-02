@@ -81,13 +81,13 @@ export default function User() {
               <tbody className='border border-tertiary' style={{backgroundColor: '#FDF3D3'}}>
                 {filteredUsers().map((user, index) => (
                   <tr key={index}>
-                    <td className='px-2 border-x border-tertiary'>{user.UID}</td>
-                    <td className='px-2 border-x border-tertiary'>{user.userName}</td>
-                    <td className='px-2 border-x border-tertiary'>{user.email}</td>
-                    <td className='px-2 border-x border-tertiary'>{user.battle}</td>
-                    <td className='px-2 border-x border-tertiary'>{user.score}</td>
-                    <td className='px-2 border-x border-tertiary'>{user.WLratio}</td>
-                    <td className='px-2 border-x border-tertiary text-center'>
+                    <td className='px-2 border-y border-tertiary'>{user.UID}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.userName}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.email}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.battle}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.score}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.WLratio}</td>
+                    <td className='px-2 border-y border-tertiary text-center'>
                       <Button
                         variant='text'
                         size='small'

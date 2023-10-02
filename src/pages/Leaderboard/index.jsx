@@ -144,11 +144,11 @@ export default function Leaderboard() {
               <tbody className='border border-tertiary' style={{backgroundColor: '#FDF3D3'}}>
                 {filteredLeaderboads().map((leaderboard, index) => (
                   <tr key={index}>
-                    <td className='px-2 border-x border-tertiary'>{leaderboard.username}</td>
-                    <td className='px-2 border-x border-tertiary'>{leaderboard.KDratio}</td>
-                    <td className='px-2 border-x border-tertiary'>{leaderboard.score}</td>
-                    <td className='px-2 border-x border-tertiary'>{leaderboard.date}</td>
-                    <td className='px-2 border-x border-tertiary'>{leaderboard.duration}</td>
+                    <td className='px-2 border-y border-tertiary'>{leaderboard.username}</td>
+                    <td className='px-2 border-y border-tertiary'>{leaderboard.KDratio}</td>
+                    <td className='px-2 border-y border-tertiary'>{leaderboard.score}</td>
+                    <td className='px-2 border-y border-tertiary'>{leaderboard.date}</td>
+                    <td className='px-2 border-y border-tertiary'>{leaderboard.duration}</td>
                   </tr>
                 ))}
               </tbody>
