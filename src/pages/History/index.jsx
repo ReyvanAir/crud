@@ -129,6 +129,17 @@ export default function History() {
           </div>
         </>
       )}
+
+
+
+      {/* Selected History Dialog */}
+      {selectedHistory && (
+        <HistoryDialog
+          open={selectedHistory ? true : false}
+          onClose={() => setSelectedHistory(null)}
+          data={histories}
+        />
+      )}
     </main>
   );
 };
