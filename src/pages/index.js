@@ -2,9 +2,9 @@
 
 import Login from './Login';
 import SignUp from './SignUp';
-import Home from './Home';
 import History from './History';
 import Leaderboard from './Leaderboard';
+import UserAsAdmin from './User (Admin)';
 import User from './User';
 
 
@@ -12,8 +12,8 @@ import User from './User';
 export {
   Login,
   SignUp,
-  Home,
   History,
   Leaderboard,
+  UserAsAdmin,
   User
 };

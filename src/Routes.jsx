@@ -4,9 +4,9 @@ import { Nav } from './components';
 import {
   Login,
   SignUp,
-  Home,
   History,
   Leaderboard,
+  UserAsAdmin,
   User
 } from './pages';
 
@@ -14,6 +14,7 @@ import {
 
 export default function _Routes() {
   const isLoggedIn = sessionStorage.getItem('user');
+  const userType = 'ADMIN';
 
 
 
@@ -28,13 +29,19 @@ export default function _Routes() {
       ) : (
         <>
           <Nav />
-          <Routes>
-            <Route path='/home' element={<Home />} />
-            <Route path='/history' element={<History />} />
-            <Route path='/leaderboard' element={<Leaderboard />} />
-            <Route path='/User' element={<User />} />
-            <Route path='*' element={<Navigate to='/home' />} />
-          </Routes>
+          {(userType === 'ADMIN') ? (
+            <Routes>
+              <Route path='/history' element={<History />} />
+              <Route path='/leaderboard' element={<Leaderboard />} />
+              <Route path='/user' element={<UserAsAdmin />} />
+              <Route path='*' element={<Navigate to='/user' />} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path='/user' element={<User />} />
+              <Route path='*' element={<Navigate to='/user' />} />
+            </Routes>
+          )}
         </>
       )}
     </>
