@@ -4,8 +4,8 @@ import Login from './Login';
 import SignUp from './SignUp';
 import History from './History';
 import Leaderboard from './Leaderboard';
-import UserAsAdmin from './User (Admin)';
 import User from './User';
+import UserDetail from './User/Detail';
 
 
 
@@ -14,6 +14,6 @@ export {
   SignUp,
   History,
   Leaderboard,
-  UserAsAdmin,
-  User
+  User,
+  UserDetail
 };

@@ -1,238 +1,153 @@
-import { Button } from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import { TextField, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import CardWrapper from './CardWrapper';
-import Card from './Card';
-import MatchHistoryItem from './MatchHistoryItem';
+import AddUserDialog from './AddUserDialog';
+import DeleteUserDialog from './DeleteUserDialog';
+import EditUserDialog from './EditUserDialog';
 
 
 
 export default function User() {
-  const [selectedMode, setSelectedMode] = useState('AI');
-  const [data, setData] = useState(null);
+  const navigate = useNavigate();
+
+  const [filterUser, setFilterUser] = useState('');
+  const [users, setUsers] = useState(null);
+  const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
+  const [isEditUserDialogOpen, setIsEditUserDialogOpen] = useState(false);
+  const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
 
 
 
   // ambe data dummy
   useEffect(() => {
     (async () => {
-      const req = await fetch('https://dummyjson.com/users/1');
+      const req = await fetch('https://dummyjson.com/users?limit=50');
       const res = await req.json();
       if (res) {
-        setData({
-          AI: {
-            simulationPlayed: parseInt(res.phone.split(' ')[1]),
-            kill: parseInt(res.birthDate.split('-')[0].slice(0, 2)),
-            death: parseInt(res.birthDate.split('-')[0].slice(3, 5)),
-            win: parseInt(res.birthDate.split('-')[1]),
-            lose: parseInt(res.birthDate.split('-')[2])
-          },
-          teamPVE: {
-            simulationPlayed: parseInt(res.phone.split(' ')[2]),
-            kill: parseInt(res.ip.split('.')[0]),
-            death: parseInt(res.ip.split('.')[1]),
-            win: parseInt(res.ip.split('.')[2]),
-            lose: parseInt(res.ip.split('.')[3])
-          },
-          teamPVP: {
-            simulationPlayed: parseInt(res.phone.split(' ')[3]),
-            kill: parseInt(res.address.postalCode.slice(0, 2)),
-            death: parseInt(res.address.postalCode.slice(1, 3)),
-            win: parseInt(res.address.postalCode.slice(2, 4)),
-            lose: parseInt(res.address.postalCode.slice(3, 5))
-          }
-        });
+        setUsers(res.users.map(user => ({
+          UID: user.id,
+          userName: user.username,
+          email: user.email,
+          battle: user.maidenName,
+          score: user.height,
+          WLratio: user.weight
+        })));
       }
     })();
   }, []);
 
 
 
-  function viewAllMatchesOnClick() {
-
+  function filteredUsers() {
+    return users?.filter(user => (
+      (!user || user.userName.includes(filterUser))
+    ));
   }
 
 
 
   return (
     <main>
-      <div className='-mt-4 -mx-4 bg-tertiary flex px-4'>
-        <div className={`${selectedMode === 'AI' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('AI')}>AI</div>
-        <div className={`${selectedMode === 'TeamPVE' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('TeamPVE')}>Team PVE</div>
-        <div className={`${selectedMode === 'TeamPVP' ? 'bg-secondary' : ''} py-2 px-8 text-neutral-100 rounded hover:bg-secondary hover:cursor-pointer`} onClick={() => setSelectedMode('TeamPVP')}>Team PVP</div>
-      </div>
+      <div className='text-2xl'>USER</div>
 
-      <div className='mt-4 h-full overflow-auto'>
-        {!data ? (
+      <div className='mt-4 overflow-auto'>
+        {!users ? (
           <div className='text-center text-lg'>Loading data ...</div>
+        ) : (users.length === 0) ? (
+          <div className='text-center text-lg'>Data is empty</div>
         ) : (
-          <div className='h-full grid grid-cols-3 gap-8'>
-            <div className='col-span-2 flex flex-col gap-4'>
-              <CardWrapper title='OVERVIEW'>
-                <Card
-                  title='Simulation Played'
-                  value={data.AI.simulationPlayed + data.teamPVE.simulationPlayed + data.teamPVP.simulationPlayed}
-                  details={[
-                    ['AI', data.AI.simulationPlayed],
-                    ['PVE', data.teamPVE.simulationPlayed],
-                    ['PVP', data.teamPVP.simulationPlayed]
-                  ]}
-                />
-                <Card
-                  title='Kill/Death'
-                  value={((data.AI.kill + data.teamPVE.kill + data.teamPVP.kill) / (data.AI.death + data.teamPVE.death + data.teamPVP.death)).toFixed(2)}
-                  details={[
-                    ['Kills', data.AI.kill + data.teamPVE.kill + data.teamPVP.kill],
-                    ['Deaths', data.AI.death + data.teamPVE.death + data.teamPVP.death]
-                  ]}
-                />
-                <Card
-                  title='Win/Lose'
-                  value={((data.AI.win + data.teamPVE.win + data.teamPVP.win) / (data.AI.lose + data.teamPVE.lose + data.teamPVP.lose)).toFixed(2)}
-                  details={[
-                    ['WIN', data.AI.win + data.teamPVE.win + data.teamPVP.win],
-                    ['LOSE', data.AI.lose + data.teamPVE.lose + data.teamPVP.lose]
-                  ]}
-                />
-              </CardWrapper>
-
-              {(selectedMode === 'AI') ? (
-                <CardWrapper title='AI OVERVIEW'>
-                  <Card
-                    title='Simulation Played'
-                    value={data.AI.simulationPlayed}
-                  />
-                  <Card
-                    title='Kill/Death'
-                    value={(data.AI.kill / data.AI.death).toFixed(2)}
-                    details={[
-                      ['Kills', data.AI.kill],
-                      ['Deaths', data.AI.death]
-                    ]}
-                  />
-                  <Card
-                    title='Win/Lose'
-                    value={(data.AI.win / data.AI.lose).toFixed(2)}
-                    details={[
-                      ['WIN', data.AI.win],
-                      ['LOSE', data.AI.lose]
-                    ]}
-                  />
-                </CardWrapper>
-              ) : (selectedMode === 'TeamPVE') ? (
-                <CardWrapper title='PVE OVERVIEW'>
-                  <Card
-                    title='Simulation Played'
-                    value={data.teamPVE.simulationPlayed}
-                  />
-                  <Card
-                    title='Kill/Death'
-                    value={(data.teamPVE.kill / data.teamPVE.death).toFixed(2)}
-                    details={[
-                      ['Kills', data.teamPVE.kill],
-                      ['Deaths', data.teamPVE.death]
-                    ]}
-                  />
-                  <Card
-                    title='Win/Lose'
-                    value={(data.teamPVE.win / data.teamPVE.lose).toFixed(2)}
-                    details={[
-                      ['WIN', data.teamPVE.win],
-                      ['LOSE', data.teamPVE.lose]
-                    ]}
-                  />
-                </CardWrapper>
-              ) : (selectedMode === 'TeamPVP') && (
-                <CardWrapper title='PVP OVERVIEW'>
-                  <Card
-                    title='Simulation Played'
-                    value={data.teamPVP.simulationPlayed}
-                  />
-                  <Card
-                    title='Kill/Death'
-                    value={(data.teamPVP.kill / data.teamPVP.death).toFixed(2)}
-                    details={[
-                      ['Kills', data.teamPVP.kill],
-                      ['Deaths', data.teamPVP.death]
-                    ]}
-                  />
-                  <Card
-                    title='Win/Lose'
-                    value={(data.teamPVP.win / data.teamPVP.lose).toFixed(2)}
-                    details={[
-                      ['WIN', data.teamPVP.win],
-                      ['LOSE', data.teamPVP.lose]
-                    ]}
-                  />
-                </CardWrapper>
-              )}
+          <>
+            <div className='flex items-center gap-4'>
+              <TextField
+                label='Search User'
+                variant='outlined'
+                size='small'
+                value={filterUser}
+                onChange={e => setFilterUser(e.target.value)}
+              />
             </div>
 
-            <div className='bg-secondary border rounded border-tertiary p-2 flex flex-col gap-8'>
-              <div className='flex justify-between'>
-                <div className='text-lg font-bold'>MATCH HISTORY</div>
-                <Button
-                  variant='contained'
-                  size='small'
-                  onClick={viewAllMatchesOnClick}
-                >
-                  View All Matches
-                </Button>
-              </div>
-              
-              <div className='flex flex-col gap-2'>
-                <div className='font-bold'>TODAY</div>
-                <MatchHistoryItem
-                  mode='PVP'
-                  kill={13}
-                  death={10}
-                  score='8-10'
-                  result='LOST'
-                />
-                <MatchHistoryItem
-                  mode='PVE'
-                  kill={13}
-                  death={10}
-                  score='12-10'
-                  result='WIN'
-                />
-                <MatchHistoryItem
-                  mode='AI'
-                  kill={13}
-                  death={10}
-                  score='8-10'
-                  result='WIN'
-                />
-              </div>
+            <table className='mt-4 w-full select-text'>
+              <thead className='bg-tertiary text-neutral-100 border border-tertiary'>
+                <tr>
+                  <th className='py-2 px-2'>UID</th>
+                  <th className='py-2 px-2'>UserName</th>
+                  <th className='py-2 px-2'>Email</th>
+                  <th className='py-2 px-2'>Battle</th>
+                  <th className='py-2 px-2'>SCORE</th>
+                  <th className='py-2 px-2'>W/L Ratio</th>
+                  <th className='py-2 px-2'>Action</th>
+                </tr>
+              </thead>
+              <tbody className='border border-tertiary' style={{backgroundColor: '#FDF3D3'}}>
+                {filteredUsers().map((user, index) => (
+                  <tr
+                    key={index}
+                    className='hover:cursor-pointer hover:bg-secondary'
+                    onClick={() => navigate(`/user/detail/${user.UID}`)}
+                  >
+                    <td className='px-2 border-y border-tertiary'>{user.UID}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.userName}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.email}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.battle}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.score}</td>
+                    <td className='px-2 border-y border-tertiary'>{user.WLratio}</td>
+                    <td className='px-2 border-y border-tertiary text-center'>
+                      <Button
+                        variant='text'
+                        size='small'
+                        onClick={() => setIsDeleteUserDialogOpen(user)}
+                      >
+                        <Delete color='error' />
+                      </Button>
+                      <Button
+                        variant='text'
+                        size='small'
+                        onClick={() => setIsEditUserDialogOpen(user)}
+                      >
+                        <Edit color='warning' />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-              <div className='flex flex-col gap-2'>
-                <div className='font-bold'>YESTERDAY</div>
-                <MatchHistoryItem
-                  mode='PVP'
-                  kill={13}
-                  death={10}
-                  score='8-10'
-                  result='LOST'
-                />
-                <MatchHistoryItem
-                  mode='PVE'
-                  kill={13}
-                  death={10}
-                  score='12-10'
-                  result='WIN'
-                />
-                <MatchHistoryItem
-                  mode='AI'
-                  kill={13}
-                  death={10}
-                  score='8-10'
-                  result='WIN'
-                />
-              </div>
+            <div className='mt-4 flex justify-end'>
+              <Button variant='contained' onClick={() => setIsAddUserDialogOpen(true)}>
+                Add User
+              </Button>
             </div>
-          </div>
+          </>
         )}
       </div>
+
+
+
+      {/* Add User Dialog */}
+      {isAddUserDialogOpen && (
+        <AddUserDialog open={isAddUserDialogOpen ? true : false} onClose={() => setIsAddUserDialogOpen(false)} />
+      )}
+
+      {/* Delete User Dialog */}
+      {isDeleteUserDialogOpen && (
+        <DeleteUserDialog
+          open={isDeleteUserDialogOpen ? true : false}
+          onClose={() => setIsDeleteUserDialogOpen(false)}
+          data={isDeleteUserDialogOpen}
+        />
+      )}
+
+      {/* Edit User Dialog */}
+      {isEditUserDialogOpen && (
+        <EditUserDialog
+          open={isEditUserDialogOpen ? true : false}
+          onClose={() => setIsEditUserDialogOpen(false)}
+          data={isEditUserDialogOpen}
+        />
+      )}
     </main>
   );
 };

@@ -42,7 +42,7 @@ export default function Nav() {
             className='rounded-full h-32 w-32'
           />
           <div className='font-bold text-lg'>{user.displayName}</div>
-          <div className='font-bold'>ADMIN</div> {/* dpe value for admin qt nd tau m ambe drmna */}
+          <div className='font-bold'>ADMIN</div>
         </div>
 
         <div className='flex flex-col gap-2'>

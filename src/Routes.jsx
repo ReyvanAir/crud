@@ -6,15 +6,14 @@ import {
   SignUp,
   History,
   Leaderboard,
-  UserAsAdmin,
-  User
+  User,
+  UserDetail
 } from './pages';
 
 
 
 export default function _Routes() {
   const isLoggedIn = sessionStorage.getItem('user');
-  const userType = 'ADMIN';
 
 
 
@@ -29,19 +28,13 @@ export default function _Routes() {
       ) : (
         <>
           <Nav />
-          {(userType === 'ADMIN') ? (
-            <Routes>
-              <Route path='/history' element={<History />} />
-              <Route path='/leaderboard' element={<Leaderboard />} />
-              <Route path='/user' element={<UserAsAdmin />} />
-              <Route path='*' element={<Navigate to='/user' />} />
-            </Routes>
-          ) : (
-            <Routes>
-              <Route path='/user' element={<User />} />
-              <Route path='*' element={<Navigate to='/user' />} />
-            </Routes>
-          )}
+          <Routes>
+            <Route path='/history' element={<History />} />
+            <Route path='/leaderboard' element={<Leaderboard />} />
+            <Route path='/user' element={<User />} />
+            <Route path='/user/detail/:id' element={<UserDetail />} />
+            <Route path='*' element={<Navigate to='/user' />} />
+          </Routes>
         </>
       )}
     </>
