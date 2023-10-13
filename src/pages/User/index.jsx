@@ -86,8 +86,7 @@ export default function User() {
                   <TableCell className="py-2 px-2">UID</TableCell>
                   <TableCell className="py-2 px-2">UserName</TableCell>
                   <TableCell className="py-2 px-2">Email</TableCell>
-                  <TableCell className="py-2 px-2">Battle</TableCell>
-                  <TableCell className="py-2 px-2">SCORE</TableCell>
+                  <TableCell className="py-2 px-2">K/D Ratio</TableCell>
                   <TableCell className="py-2 px-2">W/L Ratio</TableCell>
                   <TableCell className="py-2 px-2">Action</TableCell>
                 </TableRow>
@@ -119,10 +118,7 @@ export default function User() {
                         {user.email}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
-                        {user.battle}
-                      </TableCell>
-                      <TableCell className="px-2 border-y border-tertiary">
-                        {user.score}
+                        {user.KDratio}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
                         {user.WLratio}
