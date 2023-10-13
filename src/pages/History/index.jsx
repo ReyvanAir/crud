@@ -18,7 +18,6 @@ export default function History() {
   const [filterDuration, setFilterDuration] = useState("default");
   const [histories, setHistories] = useState(null);
   const [selectedHistory, setSelectedHistory] = useState(null);
-  const [filterUser, setFilterUser] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -126,7 +125,7 @@ export default function History() {
             <Table className="w-full">
               <TableHead className="bg-tertiary text-neutral-100 border border-tertiary">
                 <TableRow>
-                  <TableCell className="py-2 px-2">BATTLE</TableCell>
+                  <TableCell className="py-2 px-2">MODE</TableCell>
                   <TableCell className="py-2 px-2">RESULT</TableCell>
                   <TableCell className="py-2 px-2">DATE</TableCell>
                   <TableCell className="py-2 px-2">DURATION</TableCell>
@@ -139,24 +138,24 @@ export default function History() {
                 {filteredHistories()
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((history, index) => (
-                    <tr
+                    <TableRow
                       key={index}
                       className="hover:cursor-pointer hover:bg-secondary"
                       onClick={() => setSelectedHistory(history)}
                     >
-                      <td className="px-2 border-y border-tertiary">
+                      <TableCell className="px-2 border-y border-tertiary">
                         {history.battle}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {history.result}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {history.date}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {history.duration}
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
               </tbody>
             </Table>
