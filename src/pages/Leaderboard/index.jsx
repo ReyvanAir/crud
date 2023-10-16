@@ -196,26 +196,26 @@ export default function Leaderboard() {
                 {filteredLeaderboads()
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((leaderboard, index) => (
-                    <tr key={index}>
-                      <td className="px-2 border-y border-tertiary">
+                    <TableRow key={index}>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {leaderboard.rank}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {leaderboard.username}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {leaderboard.KDratio}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {leaderboard.score}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {leaderboard.date}
-                      </td>
-                      <td className="px-2 border-y border-tertiary">
+                      </TableCell>
+                      <TableCell className="px-2 border-y border-tertiary">
                         {leaderboard.duration}
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
               </tbody>
             </Table>
