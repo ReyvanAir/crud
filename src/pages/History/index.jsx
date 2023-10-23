@@ -12,6 +12,8 @@ import {
 import { useState, useEffect } from "react";
 
 import HistoryDialog from "./HistoryDialog";
+import { database } from "../../configs/firebase";
+import { get, ref } from "firebase/database";
 
 export default function History() {
   const [filterMonth, setFilterMonth] = useState("ALL");
@@ -20,6 +22,7 @@ export default function History() {
   const [selectedHistory, setSelectedHistory] = useState(null);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
+  const [battle, setBattle] = useState(null);
 
   // ambe data dummy
   useEffect(() => {
@@ -44,12 +47,16 @@ export default function History() {
     })();
   }, []);
 
+  useEffect(() => {
+    getAllBattle();
+  }, []);
+
   function filteredHistories() {
-    return histories
+    return battle
       ?.filter(
         (history) =>
           filterMonth === "ALL" ||
-          history.date.split("T")[0].split("-")[1].includes(filterMonth)
+          history.date?.split("T")[0].split("-")[1].includes(filterMonth)
       )
       .sort((a, b) =>
         filterDuration === "fastest"
@@ -69,13 +76,54 @@ export default function History() {
     setPage(0);
   };
 
+  const getAllBattle = async () => {
+    const battleRef = ref(database, "BattleHistory");
+    try {
+      const res = await get(battleRef);
+      const battles = Object.keys(res.val()).map((key) => ({
+        battleId: key,
+        ...res.val()[key],
+      }));
+      setBattle(battles);
+    } catch (error) {
+      console.log("ERROR: ", error);
+    }
+  };
+
+  const parsedData = () => {
+    let users;
+
+    if (selectedHistory && selectedHistory.mode === "PVP") {
+      const team1 = Object.keys(selectedHistory?.team1?.players).map((key) => ({
+        ...selectedHistory.team1.players[key],
+      }));
+      const team2 = Object.keys(selectedHistory?.team2?.players).map((key) => ({
+        ...selectedHistory.team2.players[key],
+      }));
+
+      users = [...team1, ...team2];
+    } else if (
+      selectedHistory &&
+      (selectedHistory.mode === "PVE" || selectedHistory.mode === "AI")
+    ) {
+      const team1 = Object.keys(selectedHistory?.team1?.players).map((key) => ({
+        ...selectedHistory.team1.players[key],
+      }));
+      users = team1;
+    } else {
+      users = [];
+    }
+
+    return users;
+  };
+
   return (
     <main className="flex-1 flex flex-col gap-4 p-4">
       <div className="text-2xl">HISTORY</div>
 
-      {!histories ? (
+      {!battle ? (
         <div className="text-center text-lg">Loading data ...</div>
-      ) : histories.length === 0 ? (
+      ) : battle.length === 0 ? (
         <div className="text-center text-lg">Data is empty</div>
       ) : (
         <>
@@ -144,7 +192,7 @@ export default function History() {
                       onClick={() => setSelectedHistory(history)}
                     >
                       <TableCell className="px-2 border-y border-tertiary">
-                        {history.battle}
+                        {history.mode}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
                         {history.result}
@@ -177,7 +225,7 @@ export default function History() {
         <HistoryDialog
           open={selectedHistory ? true : false}
           onClose={() => setSelectedHistory(null)}
-          data={histories}
+          data={parsedData()}
         />
       )}
     </main>
