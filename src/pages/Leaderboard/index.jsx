@@ -19,10 +19,8 @@ export default function Leaderboard() {
   const [selectedMode, setSelectedMode] = useState("AI");
   const [filterMonth, setFilterMonth] = useState("ALL");
   const [filterYear, setFilterYear] = useState("ALL");
-  const [leaderboards, setLeaderboards] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filterUser, setFilterUser] = useState("");
   const [users, setUsers] = useState(null);
   const [battleHist, setBattleHist] = useState([]);
 
@@ -48,7 +46,7 @@ export default function Leaderboard() {
   //           username: leaderboard.username,
   //           KDratio: leaderboard.weight,
   //           score: leaderboard.height,
-  //           date: leaderboard.birthDate,
+  //           gameDate: leaderboard.birthDate,
   //           duration: leaderboard.age,
   //         }))
   //       );
@@ -56,9 +54,9 @@ export default function Leaderboard() {
   //   })();
   // }, [selectedMode]);
 
-  function filteredUsers() {
-    return users?.filter((user) => !user || user.userName.includes(filterUser));
-  }
+  // function filteredUsers() {
+  //   return users?.filter((user) => !user || user.userName.includes(filterUser));
+  // }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -102,18 +100,18 @@ export default function Leaderboard() {
   //   return leaderboards?.filter(
   //     (leaderboard) =>
   //       (filterMonth === "ALL" ||
-  //         leaderboard.date.split("T")[0].split("-")[1].includes(filterMonth)) &&
+  //         leaderboard.gameDate.split("T")[0].split("-")[1].includes(filterMonth)) &&
   //       (filterYear === "ALL" ||
-  //         leaderboard.date.split("T")[0].split("-")[0].includes(filterYear))
+  //         leaderboard.gameDate.split("T")[0].split("-")[0].includes(filterYear))
   //   );
   // }
   // function filteredLeaderboads() {
   //   return users?.filter(
   //     (leaderboard) =>
   //       (filterMonth === "ALL" ||
-  //         leaderboard.date.split("T")[0].split("-")[1].includes(filterMonth)) &&
+  //         leaderboard.gameDate.split("T")[0].split("-")[1].includes(filterMonth)) &&
   //       (filterYear === "ALL" ||
-  //         leaderboard.date.split("T")[0].split("-")[0].includes(filterYear))
+  //         leaderboard.gameDate.split("T")[0].split("-")[0].includes(filterYear))
   //   );
   // }
 
@@ -158,6 +156,7 @@ export default function Leaderboard() {
 
     return kdratio.toFixed(2); // Return with 2 decimal places
   };
+
   // Calculate Score
   const calculateScore = (uid) => {
     const userBattles = battleHist.filter((battle) => {
@@ -171,34 +170,25 @@ export default function Leaderboard() {
       return false;
     });
 
-    // Initialize variables to count kills and deaths
+    // Initialize variables to score
     let totalScore = 0;
-    // let totalDeaths = 0;
 
     userBattles.forEach((battle) => {
       // Check if the user is in team1
       if (battle.team1 && battle.team1.players && battle.team1.players[uid]) {
         totalScore += battle.team1.players[uid].score || 0;
-        // totalDeaths += battle.team1.players[uid].death || 0;
       }
       // Check if the user is in team2
       if (battle.team2 && battle.team2.players && battle.team2.players[uid]) {
         totalScore += battle.team2.players[uid].score || 0;
-        // totalDeaths += battle.team2.players[uid].death || 0;
       }
     });
-
-    // Avoid division by zero
-    // if (totalDeaths === 0) {
-    //   return "Infinity"; // Handle cases where there are no deaths
-    // }
-
-    // Calculate K/D ratio
 
     console.log("score:", totalScore);
 
     return totalScore.toFixed(2); // Return with 2 decimal places
   };
+  // Calculate W/L
   const calculateWLRatio = (uid) => {
     console.log("battle history", battleHist);
     const wins = battleHist.filter((battle) => {
@@ -228,11 +218,13 @@ export default function Leaderboard() {
     return winRatio.toFixed(2);
   };
 
+  //useEffect User/Battle
   useEffect(() => {
     getAllUser();
     getAllBattle();
   }, []);
 
+  //useEffect W/L
   useEffect(() => {
     if (battleHist && users) {
       users.map((user) => {
@@ -252,6 +244,8 @@ export default function Leaderboard() {
   //     setUsers(updatedUsers);
   //   }
   // }, [battleHist, users]);
+
+  //useEffect K/D
   useEffect(() => {
     if (battleHist && users) {
       users.map((user) => {
@@ -262,6 +256,7 @@ export default function Leaderboard() {
     setUsers(users);
   }, [battleHist, users]);
 
+  //useEffect Score
   useEffect(() => {
     if (battleHist && users) {
       users.map((user) => {
@@ -275,7 +270,7 @@ export default function Leaderboard() {
   function resetOnClick() {}
 
   console.log(users);
-
+  console.log(battleHist);
   return (
     <main className="flex-1 flex flex-col gap-4 p-4">
       <div className="-mt-4 -mx-4 bg-tertiary flex px-4">
@@ -355,9 +350,9 @@ export default function Leaderboard() {
                 {/* {users.map((leaderboard, index) => (
                   <MenuItem
                     key={index}
-                    value={leaderboard.date.split("T")[0].split("-")[0]}
+                    value={leaderboard.gameDate.split("T")[0].split("-")[0]}
                   >
-                    {leaderboard.date.split("T")[0].split("-")[0]}
+                    {leaderboard.gameDate.split("T")[0].split("-")[0]}
                   </MenuItem>
                 ))} */}
               </Select>
@@ -409,7 +404,7 @@ export default function Leaderboard() {
                         {leaderboard.score}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
-                        {leaderboard.date}
+                        {leaderboard.gameDate}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
                         {leaderboard.duration}

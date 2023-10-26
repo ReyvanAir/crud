@@ -25,29 +25,52 @@ export default function History() {
   const [battle, setBattle] = useState(null);
 
   // ambe data dummy
-  useEffect(() => {
-    (async () => {
-      const req = await fetch("https://dummyjson.com/user?limit=50");
-      const res = await req.json();
-      if (res) {
-        setHistories(
-          res.users.map((history) => ({
-            battle: history.maidenName,
-            result: history.eyeColor,
-            date: history.birthDate,
-            duration: history.age,
+  // useEffect(() => {
+  //   (async () => {
+  //     const req = await fetch("https://dummyjson.com/user?limit=50");
+  //     const res = await req.json();
+  //     if (res) {
+  //       setHistories(
+  //         res.users.map((history) => ({
+  //           battle: history.maidenName,
+  //           result: history.eyeColor,
+  //           gameDate: history.birthDate,
+  //           duration: history.age,
 
-            username: history.username,
-            kill: history.ip.split(".")[0],
-            death: history.ip.split(".")[1],
-            score: history.height,
-          }))
-        );
-      }
-    })();
+  //           username: history.username,
+  //           kill: history.ip.split(".")[0],
+  //           death: history.ip.split(".")[1],
+  //           score: history.height,
+  //         }))
+  //       );
+  //     }
+  //   })();
+  // }, []);
+
+  useEffect(() => {
+    getAllBattle();
   }, []);
 
   useEffect(() => {
+    const getAllBattle = async () => {
+      const battleRef = ref(database, "BattleHistory");
+      try {
+        const res = await get(battleRef);
+        const battles = Object.keys(res.val()).map((key) => {
+          const battleData = res.val()[key];
+          const battleResult = battleData.team1.winlose; // Assuming "result" is stored in the "winlose" field of team1
+          return {
+            battleId: key,
+            ...battleData,
+            result: battleResult,
+          };
+        });
+        setBattle(battles);
+      } catch (error) {
+        console.log("ERROR: ", error);
+      }
+    };
+
     getAllBattle();
   }, []);
 
@@ -56,7 +79,7 @@ export default function History() {
       ?.filter(
         (history) =>
           filterMonth === "ALL" ||
-          history.date?.split("T")[0].split("-")[1].includes(filterMonth)
+          history.gameDate?.split("T")[0].split("-")[1].includes(filterMonth)
       )
       .sort((a, b) =>
         filterDuration === "fastest"
@@ -198,7 +221,7 @@ export default function History() {
                         {history.result}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
-                        {history.date}
+                        {history.gameDate}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
                         {history.duration}

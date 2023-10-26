@@ -96,8 +96,8 @@ export default function User() {
     console.log("battles won", battlesWon);
     console.log("wins", wins);
     const winRatio = (battlesWon.length / wins.length) * 100;
-    console.log("win ratio", winRatio.toFixed(2));
-    return winRatio.toFixed(2);
+    console.log("win ratio", winRatio.toFixed(1));
+    return winRatio.toFixed(1);
   };
 
   const calculateKDRatio = (uid) => {
@@ -137,7 +137,7 @@ export default function User() {
     // Calculate K/D ratio
     const kdratio = totalKills / totalDeaths;
 
-    return kdratio.toFixed(2); // Return with 2 decimal places
+    return kdratio.toFixed(1); // Return with 2 decimal places
   };
 
   useEffect(() => {
