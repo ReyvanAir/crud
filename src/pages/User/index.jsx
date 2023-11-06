@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AddUserDialog from "./AddUserDialog";
+import AddAdminDialog from "./AddAdminDialog";
 import DeleteUserDialog from "./DeleteUserDialog";
 import EditUserDialog from "./EditUserDialog";
 import { database } from "../../configs/firebase";
@@ -24,6 +25,7 @@ export default function User() {
   const [users, setUsers] = useState(null);
   const [battleHist, setBattleHist] = useState([]);
   const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
+  const [isAddAdminDialogOpen, setIsAddAdminDialogOpen] = useState(false);
   const [isEditUserDialogOpen, setIsEditUserDialogOpen] = useState(false);
   const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
   const [page, setPage] = useState(0);
@@ -265,6 +267,12 @@ export default function User() {
             >
               Add User
             </Button>
+            <Button
+              variant="contained"
+              onClick={() => setIsAddAdminDialogOpen(true)}
+            >
+              Add Admin
+            </Button>
           </div>
         </>
       )}
@@ -273,6 +281,13 @@ export default function User() {
         <AddUserDialog
           open={isAddUserDialogOpen ? true : false}
           onClose={() => setIsAddUserDialogOpen(false)}
+        />
+      )}
+      {/* Add Admin Dialog */}
+      {isAddAdminDialogOpen && (
+        <AddAdminDialog
+          open={isAddAdminDialogOpen ? true : false}
+          onClose={() => setIsAddAdminDialogOpen(false)}
         />
       )}
       {/* Delete User Dialog */}

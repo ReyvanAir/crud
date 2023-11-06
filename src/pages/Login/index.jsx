@@ -3,7 +3,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { auth } from "../../configs/firebase";
+import { auth, database } from "../../configs/firebase";
+import { get, ref } from "firebase/database";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -23,24 +24,34 @@ export default function Login() {
 
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
+      const adminRef = ref(database, "/Admin");
       if (res) {
         const payload = {
           user: res.user,
           role: "ADMIN",
         };
-        setIsFormSubmitting(false);
-        sessionStorage.setItem("user", JSON.stringify(payload));
-        window.location.reload();
+        await get(adminRef).then((snapshot) => {
+          const adminList = Object.keys(snapshot.val());
+          console.log(adminList);
+          if (adminList.includes(res.user.uid)) {
+            setIsFormSubmitting(false);
+            sessionStorage.setItem("user", JSON.stringify(payload));
+            window.location.reload();
+          } else throw new Error("Invalid Account");
+        });
       }
     } catch (err) {
       setIsFormSubmitting(false);
 
-      if (err.code.includes("auth/invalid-email"))
+      if (err?.code?.includes("auth/invalid-email"))
         setErrorMessage("Email tidak valid.");
-      else if (err.code.includes("auth/user-not-found"))
+      else if (err?.code?.includes("auth/user-not-found"))
         setErrorMessage("User tidak ditemukan.");
-      else if (err.code.includes("auth/wrong-password"))
+      else if (err?.code?.includes("auth/wrong-password"))
         setErrorMessage("Password salah.");
+      else if (err?.message.includes("Invalid Account")) {
+        setErrorMessage("Invalid User");
+      }
     }
   }
 
