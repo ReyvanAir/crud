@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../configs/firebase";
 
-export default function Login() {
+export default function LoginUser() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -26,7 +26,7 @@ export default function Login() {
       if (res) {
         const payload = {
           user: res.user,
-          role: "ADMIN",
+          role: "USER",
         };
         setIsFormSubmitting(false);
         sessionStorage.setItem("user", JSON.stringify(payload));

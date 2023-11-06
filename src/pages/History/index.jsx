@@ -24,29 +24,6 @@ export default function History() {
   const [page, setPage] = useState(0);
   const [battle, setBattle] = useState(null);
 
-  // ambe data dummy
-  // useEffect(() => {
-  //   (async () => {
-  //     const req = await fetch("https://dummyjson.com/user?limit=50");
-  //     const res = await req.json();
-  //     if (res) {
-  //       setHistories(
-  //         res.users.map((history) => ({
-  //           battle: history.maidenName,
-  //           result: history.eyeColor,
-  //           gameDate: history.birthDate,
-  //           duration: history.age,
-
-  //           username: history.username,
-  //           kill: history.ip.split(".")[0],
-  //           death: history.ip.split(".")[1],
-  //           score: history.height,
-  //         }))
-  //       );
-  //     }
-  //   })();
-  // }, []);
-
   useEffect(() => {
     getAllBattle();
   }, []);

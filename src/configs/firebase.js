@@ -1,7 +1,7 @@
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 // import { initializeApp } from "firebase-admin/app";
 
 // import serviceAccount from "../../fir-3-11889-f3176ddef5b8.json";
@@ -25,13 +25,31 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+//const functions = require("firebase-functions");
+//const admin = require("firebase-admin");
 
 export const auth = getAuth(app);
 export const database = getDatabase(app);
 
 // admin
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL:
-//     "https://fir-3-11889-default-rtdb.asia-southeast1.firebasedatabase.app/",
+//admin.initializeApp();
+
+// exports.addAdminRole = functions.https.onCall((data, context) => {
+//   // get user and add costum claim (admin)
+//   return admin
+//     .auth()
+//     .getUserByEmail(data.email)
+//     .then((user) => {
+//       return admin.auth().setCustomUserClaims(user.uid, {
+//         admin: true,
+//       });
+//     })
+//     .then(() => {
+//       return {
+//         message: "Success! ${data.email} has been made an admin",
+//       };
+//     })
+//     .catch((err) => {
+//       return err;
+//     });
 // });

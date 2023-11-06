@@ -1,7 +1,9 @@
 import React from "react";
 import { TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+export default function Landing() {
+  const navigate = useNavigate();
   return (
     <main className="h-screen w-screen flex justify-center items-center">
       <div className="bg-primary border-2 border-secondary p-16">
@@ -14,6 +16,7 @@ export default function SignUp() {
             size="small"
             className="w-full"
             type="submit"
+            onClick={() => navigate("/login")}
             //disabled={isFormSubmitting}
           >
             Admin
@@ -24,6 +27,7 @@ export default function SignUp() {
             size="small"
             className="w-full"
             type="submit"
+            onClick={() => navigate("/loginUser")}
             //disabled={isFormSubmitting}
           >
             User

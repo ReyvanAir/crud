@@ -1,7 +1,5 @@
 // images
 
-import ProfilePicturePlaceholder from './ProfilePicturePlaceholder.png';
-
-
+import ProfilePicturePlaceholder from "./RR3.jpg";
 
 export { ProfilePicturePlaceholder };
