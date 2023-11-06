@@ -72,41 +72,45 @@ export default function User() {
   };
 
   const calculateWLRatio = (uid) => {
-    console.log("battle history", battleHist);
     const wins = battleHist.filter((battle) => {
       if (battle.mode === "PVP") {
         return (
-          Object.keys(battle.team1.players).includes(uid) ||
-          Object.keys(battle.team2.players).includes(uid)
+          Object.keys(battle?.team1?.players).includes(uid) ||
+          Object.keys(battle?.team2?.players).includes(uid)
         );
       }
       if (battle.mode === "PVE" || battle.mode === "AI") {
-        return Object.keys(battle.team1.players).includes(uid);
+        return Object.keys(battle?.team1?.players).includes(uid);
       }
     });
     const battlesWon = wins.filter((battle) => {
-      if (battle.team1.players[uid]) {
+      if (battle?.team1?.players[uid]) {
         return battle.team1.winlose === "win";
       }
-      if (battle.team2.players[uid]) {
-        return battle.team2.winlose === "win";
+      if (battle?.team2?.players[uid]) {
+        return battle?.team2.winlose === "win";
       }
     });
     // RUMUS W/L Ratio
-    console.log("battles won", battlesWon);
-    console.log("wins", wins);
     const winRatio = (battlesWon.length / wins.length) * 100;
-    console.log("win ratio", winRatio.toFixed(1));
     return winRatio.toFixed(1);
   };
 
   const calculateKDRatio = (uid) => {
     const userBattles = battleHist.filter((battle) => {
       // Check if the user participated in the battle
-      if (battle.team1 && battle.team1.players && battle.team1.players[uid]) {
+      if (
+        battle?.team1 &&
+        battle?.team1?.players &&
+        battle?.team1?.players[uid]
+      ) {
         return true;
       }
-      if (battle.team2 && battle.team2.players && battle.team2.players[uid]) {
+      if (
+        battle?.team2 &&
+        battle?.team2?.players &&
+        battle?.team2?.players[uid]
+      ) {
         return true;
       }
       return false;
@@ -118,14 +122,22 @@ export default function User() {
 
     userBattles.forEach((battle) => {
       // Check if the user is in team1
-      if (battle.team1 && battle.team1.players && battle.team1.players[uid]) {
-        totalKills += battle.team1.players[uid].kill || 0;
-        totalDeaths += battle.team1.players[uid].death || 0;
+      if (
+        battle.team1 &&
+        battle?.team1?.players &&
+        battle.team1?.players[uid]
+      ) {
+        totalKills += battle?.team1?.players[uid]?.kill || 0;
+        totalDeaths += battle?.team1?.players[uid]?.death || 0;
       }
       // Check if the user is in team2
-      if (battle.team2 && battle.team2.players && battle.team2.players[uid]) {
-        totalKills += battle.team2.players[uid].kill || 0;
-        totalDeaths += battle.team2.players[uid].death || 0;
+      if (
+        battle.team2 &&
+        battle?.team2?.players &&
+        battle.team2?.players[uid]
+      ) {
+        totalKills += battle?.team2?.players[uid]?.kill || 0;
+        totalDeaths += battle?.team2?.players[uid]?.death || 0;
       }
     });
 
@@ -190,8 +202,6 @@ export default function User() {
                   <TableCell className="py-2 px-2">UID</TableCell>
                   <TableCell className="py-2 px-2">UserName</TableCell>
                   <TableCell className="py-2 px-2">Email</TableCell>
-                  <TableCell className="py-2 px-2">K/D Ratio</TableCell>
-                  <TableCell className="py-2 px-2">W/L Ratio</TableCell>
                   <TableCell className="py-2 px-2">Action</TableCell>
                 </TableRow>
               </TableHead>
@@ -202,11 +212,7 @@ export default function User() {
                 {filteredUsers()
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((user, index) => (
-                    <TableRow
-                    // key={index}
-                    // className="hover:cursor-pointer hover:bg-secondary"
-                    // onClick={() => navigate(/user/detail/${user.UID})}
-                    >
+                    <TableRow>
                       <TableCell className="px-2 border-y border-tertiary  ">
                         {user.uid}
                       </TableCell>
@@ -220,12 +226,6 @@ export default function User() {
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary">
                         {user.email}
-                      </TableCell>
-                      <TableCell className="px-2 border-y border-tertiary">
-                        {user.KDratio}
-                      </TableCell>
-                      <TableCell className="px-2 border-y border-tertiary">
-                        {user.WLratio}
                       </TableCell>
                       <TableCell className="px-2 border-y border-tertiary text-center">
                         <Button

@@ -15,38 +15,38 @@ export default function User() {
   const [data, setData] = useState(null);
 
   //ambe data dummy
-  // useEffect(() => {
-  //   (async () => {
-  //     const req = await fetch(`https://dummyjson.com/users/${id}`);
-  //     const res = await req.json();
-  //     if (res) {
-  //       setData({
-  //         username: res.username,
-  //         AI: {
-  //           simulationPlayed: parseInt(res.phone.split(" ")[1]),
-  //           kill: parseInt(res.birthDate.split("-")[0].slice(0, 2)),
-  //           death: parseInt(res.birthDate.split("-")[0].slice(3, 5)),
-  //           win: parseInt(res.birthDate.split("-")[1]),
-  //           lose: parseInt(res.birthDate.split("-")[2]),
-  //         },
-  //         teamPVE: {
-  //           simulationPlayed: parseInt(res.phone.split(" ")[2]),
-  //           kill: parseInt(res.ip.split(".")[0]),
-  //           death: parseInt(res.ip.split(".")[1]),
-  //           win: parseInt(res.ip.split(".")[2]),
-  //           lose: parseInt(res.ip.split(".")[3]),
-  //         },
-  //         teamPVP: {
-  //           simulationPlayed: parseInt(res.phone.split(" ")[3]),
-  //           kill: parseInt(res.address.postalCode.slice(0, 2)),
-  //           death: parseInt(res.address.postalCode.slice(1, 3)),
-  //           win: parseInt(res.address.postalCode.slice(2, 4)),
-  //           lose: parseInt(res.address.postalCode.slice(3, 5)),
-  //         },
-  //     });
-  //     }
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const req = await fetch(`https://dummyjson.com/users/${id}`);
+      const res = await req.json();
+      if (res) {
+        setData({
+          username: res.username,
+          AI: {
+            simulationPlayed: parseInt(res.phone?.split(" ")[1]),
+            kill: parseInt(res.birthDate?.split("-")[0]?.slice(0, 2)),
+            death: parseInt(res.birthDate?.split("-")[0]?.slice(3, 5)),
+            win: parseInt(res.birthDate?.split("-")[1]),
+            lose: parseInt(res.birthDate?.split("-")[2]),
+          },
+          teamPVE: {
+            simulationPlayed: parseInt(res.phone?.split(" ")[2]),
+            kill: parseInt(res.ip?.split(".")[0]),
+            death: parseInt(res.ip?.split(".")[1]),
+            win: parseInt(res.ip?.split(".")[2]),
+            lose: parseInt(res.ip?.split(".")[3]),
+          },
+          teamPVP: {
+            simulationPlayed: parseInt(res.phone?.split(" ")[3]),
+            kill: parseInt(res?.address?.postalCode?.slice(0, 2)),
+            death: parseInt(res?.address?.postalCode?.slice(1, 3)),
+            win: parseInt(res?.address?.postalCode?.slice(2, 4)),
+            lose: parseInt(res?.address?.postalCode?.slice(3, 5)),
+          },
+        });
+      }
+    })();
+  }, []);
 
   function viewAllMatchesOnClick() {}
 
